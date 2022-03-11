@@ -1,3 +1,3 @@
-# MTH-9899-Data-Science-Project
-# This is the code to implement the final project.
-# To make predictions, please run main.py by ....
+## MTH-9899-Data-Science-Project
+This is the code to implement the final project.
+To make predictions, please run main.py by ....
