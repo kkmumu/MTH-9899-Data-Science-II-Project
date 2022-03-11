@@ -17,7 +17,9 @@ def parse_args():
 
     return args
 
-def create_features(start, end, input_dir, output_dir):
+
+
+def create_features(args):
     """
     Create features between startdate and enddate and saved to the output directory specified.
 
@@ -37,8 +39,14 @@ def create_features(start, end, input_dir, output_dir):
     None.
 
     """
+    start_date = args.start
+    end_date = args.end
+    input_dir = args.input
+    output_dir = args.output
     
-def LinearRegression(start, end, input_dir, output_dir):
+    
+    
+def LinearRegression(args):
     """
     Make predictions between startdate and enddate by applying the learned model provided.
 
@@ -58,6 +66,10 @@ def LinearRegression(start, end, input_dir, output_dir):
     None.
 
     """
+    start_date = args.start
+    end_date = args.end
+    input_dir = args.input
+    output_dir = args.output
 
 
 
@@ -69,12 +81,12 @@ def main():
     
     if args.mode == 1:
         print("Mode 1 entered.")
-        create_features(args.start, args.end, args.input, args.output)
+        create_features(args)
         
     elif args.mode == 2:
         print("Mode 2 entered.")
         if args.provide == "LinearRegression":
-            LinearRegression(args.start, args.end, args.input, args.output)
+            LinearRegression(args)
         
     else:
         print("Invalid input!")
