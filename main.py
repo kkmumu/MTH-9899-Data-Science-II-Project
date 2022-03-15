@@ -1,22 +1,6 @@
 ### main.py
 
-import argparse
-import sys
-
-def parse_args():
-    parser = argparse.ArgumentParser()
-    
-    parser.add_argument("-i", "--input", help = "input directory")
-    parser.add_argument("-o", "--output", help = "output directory")
-    parser.add_argument("-p", "--provide", help = "directory containing the learned models (only for mode 2)")
-    parser.add_argument("-s", "--start", help = "start date in YYYYMMDD format", type = int)
-    parser.add_argument("-e", "--end", help = "end date in YYYYMMDD format", type = int)
-    parser.add_argument("-m","--mode", help = "mode to choose 1 or 2", type = int)
-    
-    args = parser.parse_args()
-
-    return args
-
+from prep import *
 
 
 def create_features(args):
@@ -75,15 +59,20 @@ def LinearRegression(args):
 
 def main():
     print("this is the main function")
-    
     args = parse_args()
     
     
     if args.mode == 1:
+    """"
+    Mode 1 creates features between startdate and enddate and save to the output directory specified, a CSV file per date with features for each ID.
+    """"
         print("Mode 1 entered.")
         create_features(args)
         
     elif args.mode == 2:
+    """
+    Mode 2 makes predictions between startdate and enddate by applying the learned model provided to features produced from a run in Mode 1
+    """
         print("Mode 2 entered.")
         if args.provide == "LinearRegression":
             LinearRegression(args)
