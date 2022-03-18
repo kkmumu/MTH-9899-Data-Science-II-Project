@@ -9,7 +9,8 @@ https://www.overleaf.com/9378534412nympgyccjsyk
 
 merged data (google drive link):
 + dropna: https://drive.google.com/file/d/15of74YpmZKAxG9MDSk51Ckj-n2KDfTeD/view?usp=sharing
-+ foward fill: https://drive.google.com/file/d/1CNiqLjHiAj2ej_5K9QohaDGQbJow3_dq/view?usp=sharing
++ forward fill: https://drive.google.com/file/d/1CNiqLjHiAj2ej_5K9QohaDGQbJow3_dq/view?usp=sharing
++ forward fill(compare two ffill values): https://drive.google.com/file/d/1MD-dOma42A6_3DNUHcUL-cEWN0U_ri0D/view?usp=sharing
 
 
 idea 1:
