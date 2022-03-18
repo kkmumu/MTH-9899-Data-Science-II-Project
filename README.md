@@ -9,7 +9,8 @@ https://www.overleaf.com/9378534412nympgyccjsyk
 
 merged data (google drive link):
 + dropna: https://drive.google.com/file/d/15of74YpmZKAxG9MDSk51Ckj-n2KDfTeD/view?usp=sharing
-+ fillna: https://drive.google.com/file/d/1OX15Jha4HhONNtUu6PDYpADiK4CvSqJY/view?usp=sharing
++ fillna(wo id): https://drive.google.com/file/d/1OX15Jha4HhONNtUu6PDYpADiK4CvSqJY/view?usp=sharing
++ fillna(w id): https://drive.google.com/file/d/1FXEaZ67o-nJymtuIbwxaBPBiHeR3wHhp/view?usp=sharing
 
 
 idea 1:
