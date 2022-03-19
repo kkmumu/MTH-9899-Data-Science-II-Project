@@ -2,21 +2,6 @@
 
 from prep import *
 
-def weighted_r2_scorer(model, X, y):
-    # note that feature estVol should always be set as the first column to
-    # make sure the expected weighted r2 score
-
-    r2_weight = 1 / np.array(X.iloc[:, 0])
-    r2_weight = r2_weight / r2_weight.sum()
-    
-    y_pred = model.predict(X)
-    
-    y_bar = np.dot(y, r2_weight)
-    SSE = np.sum(r2_weight * (y - y_pred)**2)
-    SST = np.sum(r2_weight * (y - y_bar)**2)
-    
-    return 1 - SSE / SST
-
 # create a subclass of TimeSeriesSplit
 class TimeSeriesSplitImproved(TimeSeriesSplit):
     """Time Series cross-validator
