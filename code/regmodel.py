@@ -3,32 +3,7 @@
 from prep import *
 
 
-def regmodel_param_plot(validation_score, train_score, alphas_to_try, chosen_alpha, scoring,
-                        model_name, test_score = None, filename = None):
-    
-    plt.figure(figsize = (8,8))
-    sns.lineplot(y = validation_score, x = alphas_to_try, label = 'validation_data')
-    sns.lineplot(y = train_score, x = alphas_to_try, label = 'training_data')
-    plt.axvline(x = chosen_alpha, linestyle = '--')
-    
-    if test_score is not None:
-        sns.lineplot(y = test_score, x = alphas_to_try, label = 'test_data')
-        
-    plt.xlabel('alpha_parameter')
-    plt.ylabel(scoring)
-    plt.title(model_name + ' Regularization')
-    plt.legend()
-    
-    if filename is not None:
-        plt.savefig(str(filename) + ".png")
-        
-    plt.show()
-    
-    
-    
-    
-
-def regmodel_hyperparameter_tuning(alphas_to_try, X, y, n_splits = 5, how_cv = "walk_forwarding", model_name = 'Ridge', X_test = None, y_test = None, draw_plot = False, filename = None):
+def regmodel_hyperparameter_tuning(alphas_to_try, X, y, n_splits = 5, how_cv = "walk_forwarding", scoring = "weighted_r2", model_name = 'Ridge', X_test = None, y_test = None, draw_plot = False, filename = None):
     
     # tuning the hyper-parameter by grid searching
     # optimising on one basis but then comparing performance on another
@@ -67,8 +42,9 @@ def regmodel_hyperparameter_tuning(alphas_to_try, X, y, n_splits = 5, how_cv = "
         if X_test is not None:
             regmodel = regmodel.fit(X, y)
             y_pred = regmodel.predict(X_test)
-            test_scores.append(weighted_r2_scorer(regmodel, X_test, y_test)) #######################
-            #test_scores.append(r2_score(y_test, y_pred))
+            r2_weight = 1 / X_test["estVol winsorized"]
+            #test_scores.append(weighted_r2_scorer(regmodel, X_test, y_test)) #######################
+            test_scores.append(r2_score(y_test, y_pred, sample_weight = r2_weight))
 
     chosen_alpha_id = np.argmax(validation_scores)
     chosen_alpha = alphas_to_try[chosen_alpha_id]
@@ -88,5 +64,29 @@ def regmodel_hyperparameter_tuning(alphas_to_try, X, y, n_splits = 5, how_cv = "
     print("Test score at chosen alpha: %.5f" % test_score_at_chosen_alpha)
     
     return chosen_alpha, max_validation_score, test_score_at_chosen_alpha
+
+
+
+
+def regmodel_param_plot(validation_score, train_score, alphas_to_try, chosen_alpha, scoring, model_name, test_score = None, filename = None):
+    
+    plt.figure(figsize = (8,8))
+    sns.lineplot(y = validation_score, x = alphas_to_try, label = 'validation_data')
+    sns.lineplot(y = train_score, x = alphas_to_try, label = 'training_data')
+    plt.axvline(x = chosen_alpha, linestyle = '--')
+    
+    if test_score is not None:
+        sns.lineplot(y = test_score, x = alphas_to_try, label = 'test_data')
+        
+    plt.xlabel('alpha_parameter')
+    plt.ylabel(scoring)
+    plt.title(model_name + ' Regularization')
+    plt.legend()
+    
+    if filename is not None:
+        plt.savefig(str(filename) + ".png")
+        
+    plt.show()
+    
 
 

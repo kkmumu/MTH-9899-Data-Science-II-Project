@@ -96,7 +96,7 @@ class TimeSeriesSplitImproved(TimeSeriesSplit):
                 ("Cannot have number of folds ={0} greater"
                  " than the number of samples: {1}.").format(n_folds,
                                                              n_samples))
-        if ((n_folds - train_splits - test_splits) > 0) and (test_splits > 0):
+        if not (((n_folds - train_splits - test_splits) > 0) and (test_splits > 0)):
             raise ValueError(
                 ("Both train_splits and test_splits must be positive"
                  " integers."))
@@ -108,8 +108,7 @@ class TimeSeriesSplitImproved(TimeSeriesSplit):
                             n_samples - (test_size - split_size),
                             split_size)
         if fixed_length:
-            for i, test_start in zip(range(len(test_starts)),
-                                     test_starts):
+            for i, test_start in zip(range(len(test_starts)), test_starts):
                 rem = 0
                 if i == 0:
                     rem = n_samples % n_folds
@@ -122,22 +121,14 @@ class TimeSeriesSplitImproved(TimeSeriesSplit):
 
 
 def weighted_r2_scorer(model, X, y):
-    # note that feature estVol should always be set as the first column to
-    # make sure the expected weighted r2 score
 
     r2_weight = 1 / np.array(X["estVol winsorized"])
     r2_weight = r2_weight / np.sum(r2_weight)
     
     y_pred = model.predict(X)
-    #y_bar = np.dot(y, r2_weight)
-    
-    #SSE = np.sum(r2_weight * ((y - y_pred)**2))
-    #SST = np.sum(r2_weight * ((y - y_bar)**2))
-    
+        
     return r2_score(y, y_pred, sample_weight = r2_weight)
     
-    
-
     
     
     
@@ -148,7 +139,7 @@ def self_cross_validation(model, X, y, n_splits = 5, how = "rolling"):
         splits = tscv.split(X)
     elif how == "rolling":
         tscv = TimeSeriesSplitImproved(n_splits = n_splits)
-        splits = tscv.split(X, fixed_length = True, train_splits = n_splits)
+        splits = tscv.split(X, fixed_length = True)
     else:
         return None
         
