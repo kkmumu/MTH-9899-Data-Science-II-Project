@@ -129,10 +129,10 @@ def weighted_r2_scorer(model, X, y):
     r2_weight = r2_weight / np.sum(r2_weight)
     
     y_pred = model.predict(X)
-    y_bar = np.dot(y, r2_weight)
+    #y_bar = np.dot(y, r2_weight)
     
-    SSE = np.sum(r2_weight * ((y - y_pred)**2))
-    SST = np.sum(r2_weight * ((y - y_bar)**2))
+    #SSE = np.sum(r2_weight * ((y - y_pred)**2))
+    #SST = np.sum(r2_weight * ((y - y_bar)**2))
     
     return r2_score(y, y_pred, sample_weight = r2_weight)
     
