@@ -8,6 +8,7 @@ white paper (overleaf link):
 https://www.overleaf.com/9378534412nympgyccjsyk
 
 white paper 2017 reference: https://github.com/XinluXiao/MTH9899-Machine-Learning/blob/master/final%20project/machine%20learning%20paper.pdf
+pickle reference:https://github.com/XinluXiao/MTH9899-Machine-Learning/blob/master/final%20project/ML_final_code_Untitiled_Group.ipynb
 
 features:
 + dropna: https://drive.google.com/file/d/1itPLOQ_lIDoo_5rA0-7qyJf7yPRqPXIp/view?usp=sharing
