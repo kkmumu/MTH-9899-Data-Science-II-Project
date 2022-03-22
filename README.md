@@ -24,11 +24,15 @@ features:
 split train/test data code:
 ----------------------------------------------------------------------------
 path1 = "/Users/sunshangwen/Dropbox (Personal)/Mac/Desktop/Git Uploads/MTH-9899-Data-Science-II-Project/processed data/features20140101_20190101.csv"
+
 path2 = "/Users/sunshangwen/Dropbox (Personal)/Mac/Desktop/Git Uploads/MTH-9899-Data-Science-II-Project/processed data/merged_data20140101_20190101.csv"
+
 m1 = pd.read_csv(path1)
+
 m2 = pd.read_csv(path2)
 
 train = m1.loc[m1["Unnamed: 0"].isin(m2[m2["Date"] < 20180101].index)]
+
 test = m1.loc[m1["Unnamed: 0"].isin(m2[m2["Date"] >= 20180101].index)]
 
 
