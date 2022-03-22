@@ -4,7 +4,12 @@ This is the code to implement MTH 9899 final project.
 
 To make predictions, please run main.py specifying mode.
 
-## data
+## test merged data
+
+test merged data (google drive link):
++ forward fill(compare two ffill values): https://drive.google.com/file/d/1RB4kmc1iW9CVGjhCfZ21ADZRKuv-GGsp/view?usp=sharing
+
+## training data
 
 white paper (overleaf link):
 https://www.overleaf.com/9378534412nympgyccjsyk
