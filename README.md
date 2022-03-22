@@ -21,7 +21,18 @@ features:
 + 2014-2018 processed data features with target https://drive.google.com/file/d/1AuBQmS2qQnYJtfUxjJZikVjzgTZ_uU3P/view?usp=sharing
 + 2014-2018 merged data with dates https://drive.google.com/file/d/19sGtlbsTyhnuJap5ogIU73roeoC7HJEU/view?usp=sharing
 
+split train/test data code:
+----------------------------------------------------------------------------
+path1 = "/Users/sunshangwen/Dropbox (Personal)/Mac/Desktop/Git Uploads/MTH-9899-Data-Science-II-Project/processed data/features20140101_20190101.csv"
+path2 = "/Users/sunshangwen/Dropbox (Personal)/Mac/Desktop/Git Uploads/MTH-9899-Data-Science-II-Project/processed data/merged_data20140101_20190101.csv"
+m1 = pd.read_csv(path1)
+m2 = pd.read_csv(path2)
 
+train = m1.loc[m1["Unnamed: 0"].isin(m2[m2["Date"] < 20180101].index)]
+test = m1.loc[m1["Unnamed: 0"].isin(m2[m2["Date"] >= 20180101].index)]
+
+
+---------------------------------------------------------------------------
 merged data (google drive link):
 + dropna: https://drive.google.com/file/d/15of74YpmZKAxG9MDSk51Ckj-n2KDfTeD/view?usp=sharing
 + forward fill: https://drive.google.com/file/d/1CNiqLjHiAj2ej_5K9QohaDGQbJow3_dq/view?usp=sharing
