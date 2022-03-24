@@ -1,4 +1,5 @@
-## Author: Shangwen Sun
+### @brief: Conduct time-series split and cross-validation to select hyper-parameters.
+### @author: Shangwen Sun
 
 from prep import *
 
@@ -118,17 +119,16 @@ class TimeSeriesSplitImproved(TimeSeriesSplit):
                 yield (indices[:test_start], indices[test_start:test_start + test_size])
 
 
-
+                
 
 def weighted_r2_scorer(model, X, y):
 
-    r2_weight = 1 / np.array(X["estVol winsorized"])
+    r2_weight = 1 / np.array(X["estVol"])
     r2_weight = r2_weight / np.sum(r2_weight)
     
     y_pred = model.predict(X)
         
     return r2_score(y, y_pred, sample_weight = r2_weight)
-    
     
     
     

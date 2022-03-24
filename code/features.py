@@ -1,9 +1,9 @@
-### Author: Shangwen Sun
+### Author: Shangwen Sun, Yizhou Wang
 
 from prep import *
 
 
-def create_features(args):
+def create_features(input_dir, output_dir, start_date, end_date, unzip_type = False):
     """
     Create features between startdate and enddate and saved to the output directory specified.
 
@@ -23,13 +23,13 @@ def create_features(args):
     None.
 
     """
-    start_date = args.start
-    end_date = args.end
-    input_dir = args.input
-    output_dir = args.output
     
     # load data from start_date to end_date
-    df = data_preprocess(input_dir, start_date, end_date)
+    df = data_preprocess(input_dir, output_dir, start_date, end_date, unzip_type = unzip_type)
+    
+    
+    
+    
     
     # intraday return features
     temp = df[df['Time']=='10:00:00.000'].pivot_table(values='ResidualNoWinsorCumReturn winsorized',index='Date',columns='Id') - df[df['Time']=='17:30:00.000'].pivot_table(values='ResidualNoWinsorCumReturn winsorized',index='Date',columns='Id')
@@ -55,6 +55,11 @@ def create_features(args):
     temp = temp.reset_index()
     features = features.merge(temp,on=['Id','Date'])
 
+    
+    
+    
+    
+    
     # 17:30 ma raw return features
     temp = df[df['Time']=='17:30:00.000'].pivot_table(values='RawNoWinsorCumReturn winsorized',index='Date',columns='Id').rolling(window=1).mean()
     temp = temp.unstack()
@@ -84,6 +89,11 @@ def create_features(args):
     features['17ma1-5raw'] = features['17ma1raw'] - features['17ma5raw']
     features['17ma1-20raw'] = features['17ma1raw'] - features['17ma20raw']
 
+    
+    
+    
+    
+    
     # 17:30 ma residual return features
     temp = df[df['Time']=='17:30:00.000'].pivot_table(values='ResidualNoWinsorCumReturn winsorized',index='Date',columns='Id').rolling(window=1).mean()
     temp = temp.unstack()
@@ -113,6 +123,12 @@ def create_features(args):
     features['17ma1-5res'] = features['17ma1res'] - features['17ma5res']
     features['17ma1-20res'] = features['17ma1res'] - features['17ma20res']
 
+    
+    
+    
+    
+    
+    
     # market value
     temp = df[df['Time']=='17:30:00.000'].pivot_table(values='CleanMid winsorized',index='Date',columns='Id') * df[df['Time']=='17:30:00.000'].pivot_table(values='SharesOutstanding winsorized',index='Date',columns='Id')
     temp = temp.unstack()
@@ -120,6 +136,11 @@ def create_features(args):
     temp = temp.reset_index()
     features = features.merge(temp,on=['Id','Date'])
 
+    
+    
+    
+    
+    
     # intraday volume features
     temp = df[df['Time']=='10:00:00.000'].pivot_table(values='CumVolume winsorized',index='Date',columns='Id') / df[df['Time']=='17:30:00.000'].pivot_table(values='CumVolume winsorized',index='Date',columns='Id')
     temp = temp.unstack()
@@ -132,7 +153,13 @@ def create_features(args):
     temp.name = '16/17vol'
     temp = temp.reset_index()
     features = features.merge(temp,on=['Id','Date'])
-
+    
+    
+    
+    
+    
+    
+    
     # turnover ma
     temp = (df[df['Time']=='17:30:00.000'].pivot_table(values='CumVolume winsorized',index='Date',columns='Id') / df[df['Time']=='17:30:00.000'].pivot_table(values='SharesOutstanding winsorized',index='Date',columns='Id')).rolling(window=1).mean()
     temp = temp.unstack()
@@ -158,6 +185,41 @@ def create_features(args):
     temp = temp.reset_index()
     features = features.merge(temp,on=['Id','Date'])
 
+            
+            
+            
+            
+            
+            
+            
+    
+    
+    # liquidity measure
+    # temp = abs(df[df['Time']=='17:30:00.000'].pivot_table(values='ResidualNoWinsorCumReturn winsorized',index='Date',columns='Id')).rolling(window = 63).median() / df[df['Time']=='17:30:00.000'].pivot_table(values='MDV_63 winsorized',index='Date',columns='Id')
+    # temp = temp.unstack()
+    # temp.name = 'illiq17'
+    # temp = temp.reset_index()
+    # features = features.merge(temp,on=['Id','Date'])
+    
+    # temp = abs(df[df['Time']=='17:30:00.000'].pivot_table(values='RawNoWinsorCumReturn winsorized',index='Date',columns='Id')).rolling(window = 63).median() / df[df['Time']=='17:30:00.000'].pivot_table(values='MDV_63 winsorized',index='Date',columns='Id')
+    # temp = temp.unstack()
+    # temp.name = 'illiq17'
+    # temp = temp.reset_index()
+    # features = features.merge(temp,on=['Id','Date'])
+    
+    # temp = df[df['Time']=='17:30:00.000'].pivot_table(values='MDV_63 winsorized',index='Date',columns='Id')
+    # temp = temp.unstack()
+    # temp.name = 'MDV_63'
+    # temp = temp.reset_index()
+    # features = features.merge(temp,on=['Id','Date'])
+                  
+                  
+                  
+                  
+                  
+    
+    
+            
     # original features 
     temp = df[df['Time']=='17:30:00.000'].pivot_table(values='estVol winsorized',index='Date',columns='Id')
     temp = temp.unstack()
@@ -182,12 +244,15 @@ def create_features(args):
     temp.name = 'cleanMid10'
     temp = temp.reset_index()
     features = features.merge(temp,on=['Id','Date'])
-
+    
     temp = df[df['Time']=='17:30:00.000'].pivot_table(values='CumVolume winsorized',index='Date',columns='Id')
     temp = temp.unstack()
     temp.name = 'vol17'
     temp = temp.reset_index()
     features = features.merge(temp,on=['Id','Date'])
+    
+
+    
 
     # Merging with target
     target = df[df["Time"] == "17:30:00.000"][['Date','Id','ResidualNoWinsorCumReturn winsorized']].copy()
@@ -196,9 +261,11 @@ def create_features(args):
     merged["y"] = merged.groupby(['Id'])["ResidualNoWinsorCumReturn winsorized"].shift(-1)
     merged = merged.dropna(how = 'any')
     merged = merged.sort_values('Date',ascending=True)
-    merged = merged.drop(["Id", "Date","ResidualNoWinsorCumReturn winsorized"], axis = 1)
+    merged = merged.drop(["ResidualNoWinsorCumReturn winsorized"], axis = 1)
     
     # save to the output directory specified
-    merged.to_csv(output_dir + '/' + str(start_date) + "_" + str(end_date))
+    merged.to_csv(output_dir + '/features' + str(start_date) + "_" + str(end_date) + ".csv", index = False)
         
     return merged
+
+    
