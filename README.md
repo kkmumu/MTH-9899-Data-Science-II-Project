@@ -4,7 +4,7 @@ by ***Group 7: Ming Fu, Shangwen Sun, Yizhou Wang***
 
 This is the readme file for implementing MTH 9899 final project.
 
-Our handout contains two folders, one is code, the other is models.
+Our handin contains two folders, one is code, the other is models.
 
 
 
